@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background 1.2s ease, backdrop-filter 0.8s;
+}
+
+/* main stage */
+.main-container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* LEFT – LIVING SKY (60%) */
+.weather-side {
+    width: 60%;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.1);
+}
+
+.sky {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: background 1.2s cubic-bezier(0.2, 0.9, 0.3, 1);
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* 🌤 default / normal day */
+body.normal.day .sky {
+    background: linear-gradient(145deg, #b1d9f0 0%, #f9e7b3 80%);
+}
+body.normal.day .sky::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: 35%;
+    width: 130px;
+    height: 130px;
+    background: radial-gradient(circle at 30% 30%, #fff9b0, #ffdb7c);
+    border-radius: 50%;
+    filter: drop-shadow(0 0 25px #ffeb99);
+    animation: softGlow 4s infinite alternate;
+    z-index: 1;
+}
+
+/* 🔥 HOT – intense sun + heat haze */
+body.hot .sky {
+    background: linear-gradient(165deg, #ff7b2b, #ffd966, #ffb347);
+}
+body.hot .sky::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 30%, rgba(255,200,50,0.45) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 2;
+    animation: heatShimmer 3s infinite ease-in-out;
+}
+body.hot .sky::after {
+    content: '☀️';
+    position: absolute;
+    top: 45px;
+    left: 38%;
+    font-size: 130px;
+    filter: drop-shadow(0 0 35px #ffaa33);
+    animation: rotateSun 20s linear infinite, pulseGlow 2s infinite alternate;
+    z-index: 3;
+}
+
+/* ❄️ COLD – moon + falling snow (night vibe) */
+body.cold.night .sky {
+    background: linear-gradient(135deg, #13293e, #1b3b4f, #2c5a6e);
+}
+body.cold.night .sky::after {
+    content: '🌙';
+    position: absolute;
+    top: 55px;
+    left: 40%;
+    font-size: 90px;
+    filter: drop-shadow(0 0 15px #b3e0ff);
+    opacity: 0.9;
+    animation: floatMoon 8s infinite alternate;
+    z-index: 2;
+}
+
+/* floating clouds (universal) */
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 80px;
+    box-shadow: 0 15px 25px -8px rgba(0,0,0,0.2);
+    backdrop-filter: blur(2px);
+    z-index: 5;
+}
+.cloud1 {
+    width: 240px;
+    height: 75px;
+    top: 100px;
+    left: -250px;
+    animation: driftCloud 38s linear infinite;
+}
+.cloud2 {
+    width: 320px;
+    height: 95px;
+    top: 190px;
+    left: -340px;
+    animation: driftCloud 50s linear infinite 5s;
+}
+.cloud1::before, .cloud1::after,
+.cloud2::before, .cloud2::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+    box-shadow: inherit;
+}
+.cloud1::before { width: 130px; height: 110px; top: -55px; left: 30px; }
+.cloud1::after { width: 100px; height: 90px; top: -40px; left: 120px; }
+.cloud2::before { width: 160px; height: 140px; top: -70px; left: 50px; }
+.cloud2::after { width: 120px; height: 110px; top: -50px; left: 170px; }
+
+/* snowflakes container inside sky */
+.snowflake {
+    position: absolute;
+    top: -20px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.4rem;
+    user-select: none;
+    pointer-events: none;
+    text-shadow: 0 0 6px #b0e0ff;
+    animation: fallSnow linear infinite;
+    z-index: 20;
+}
+
+/* extra shimmer for hot */
+@keyframes heatShimmer {
+    0% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.02); }
+    100% { opacity: 0.4; transform: scale(1); }
+}
+@keyframes rotateSun {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes pulseGlow {
+    0% { filter: drop-shadow(0 0 20px #f9c23f); }
+    100% { filter: drop-shadow(0 0 55px #ff8c1a); }
+}
+@keyframes floatMoon {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+@keyframes softGlow {
+    0% { opacity: 0.9; filter: drop-shadow(0 0 15px #fce570); }
+    100% { opacity: 1; filter: drop-shadow(0 0 40px #fff2b5); }
+}
+@keyframes driftCloud {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(130vw); }
+}
+@keyframes fallSnow {
+    0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0.2; }
+}
+
+/* RIGHT – calculator panel (40%) */
+.calculator-side {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    border-left: 1px solid rgba(255,255,255,0.5);
+    box-shadow: -8px 0 32px rgba(0,0,0,0.1);
+}
+
+.card {
+    width: 80%;
+    max-width: 340px;
+    padding: 35px 28px;
+    border-radius: 42px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 30px 55px -15px rgba(0,30,50,0.3),
+                0 0 0 1px rgba(255,255,255,0.6) inset;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.card h1 {
+    font-weight: 400;
+    font-size: 1.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #113946;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px 18px;
+    margin: 12px 0;
+    border-radius: 48px;
+    border: 1px solid rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.8);
+    font-size: 1.1rem;
+    outline: none;
+    transition: 0.2s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.02);
+}
+input:focus, select:focus {
+    border-color: #7aa5c2;
+    box-shadow: 0 8px 18px rgba(90,150,200,0.2);
+    background: white;
+}
+
+button {
+    width: 100%;
+    padding: 16px 10px;
+    margin-top: 16px;
+    border: none;
+    border-radius: 56px;
+    background: linear-gradient(135deg, #336b87, #2a4f6e);
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: 0.25s;
+    box-shadow: 0 10px 18px -8px #1a3f5a;
+}
+button:hover {
+    transform: scale(1.02) translateY(-3px);
+    background: linear-gradient(145deg, #3f7da3, #2c5a7a);
+    box-shadow: 0 18px 25px -10px #0d2f44;
+}
+button:active { transform: scale(0.98); }
+
+#result {
+    margin-top: 28px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 2rem;
+    background: rgba(255,255,255,0.3);
+    padding: 16px;
+    border-radius: 48px;
+    color: #0a293b;
+    text-shadow: 0 2px 6px rgba(255,255,255,0.5);
+    transition: 0.2s;
+    border: 1px solid rgba(255,255,255,0.7);
+}
+
+/* responsive */
+@media (max-width: 720px) {
+    .main-container { flex-direction: column; }
+    .weather-side { width: 100%; height: 45vh; }
+    .calculator-side { width: 100%; height: 55vh; border-left: none; }
+}
+
+/* tiny extra personality */
+body.cold.night .cloud { opacity: 0.35; background: #c0d4e6; }
+body.hot .cloud { opacity: 0.5; background: #ffeed9; }

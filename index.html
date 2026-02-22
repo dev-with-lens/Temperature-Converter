@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Temperature Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="normal day" id="mainBody">
+
+<div class="main-container">
+    <!-- WEATHER SIDE (dynamic sky) -->
+    <div class="weather-side">
+        <div class="sky" id="skyContainer">
+            <!-- two static clouds (always there, but styled differently) -->
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+            <!-- snowflakes will be injected here by js if cold -->
+        </div>
+    </div>
+
+    <!-- CALCULATOR SIDE -->
+    <div class="calculator-side">
+        <div class="card">
+            <h1>🌦️ temp·er·ature</h1>
+            <input type="number" id="temp" placeholder="e.g., 25" value="22">
+            <select id="unit">
+                <option value="c" selected>Celsius °C</option>
+                <option value="f">Fahrenheit °F</option>
+                <option value="k">Kelvin K</option>
+            </select>
+            <button onclick="convertTemperature()">convert &nbsp;→</button>
+            <div id="result">22.00 °C <br>71.60 °F <br>295.15 K</div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
